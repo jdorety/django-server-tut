@@ -48,6 +48,7 @@ class BookInstance(models.Model):
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
+    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),
@@ -89,3 +90,7 @@ class Author(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.last_name}, {self.first_name}'
+
+class Language(models.Model):
+    name = models.CharField(max_length=100)
+    translation = models.BooleanField(null=False, default=False, blank=False)
