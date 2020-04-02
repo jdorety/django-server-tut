@@ -40,6 +40,10 @@ class Book(models.Model):
         """Returns the url to access a detail record for this book."""
         return reverse('book-detail', args=[str(self.id)])
 
+    def display_genre(self):
+        return ', '.join(genre.name for genre in self.genre.all()[:3])
+
+    display_genre.short_description = 'Genre'
 
 class BookInstance(models.Model):
     """Model representing a specific copy of a book (i.e. that can be borrowed from the library)."""
@@ -48,7 +52,7 @@ class BookInstance(models.Model):
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
-    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
+    # language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),
@@ -91,6 +95,6 @@ class Author(models.Model):
         """String for representing the Model object."""
         return f'{self.last_name}, {self.first_name}'
 
-class Language(models.Model):
-    name = models.CharField(max_length=100)
-    translation = models.BooleanField(null=False, default=False, blank=False)
+# class Language(models.Model):
+#     name = models.CharField(max_length=100)
+#     translation = models.BooleanField(null=False, default=False, blank=False)
